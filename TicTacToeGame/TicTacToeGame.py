@@ -1,8 +1,10 @@
 #Tic Tac Toe Game
-# Inspiration for idea is from "Tech with Tim" on Youtube
 
+# Create board list with 9 spaces
 board = [' ' for x in range(10)]
 
+# Print board in tic-tac-toe format
+# Set the list from 1-9 on the board to be modified throughout the program
 def printBoard(board):
     print('   |   |')
     print(' ' + board[1] + ' ' + '|' + ' ' + board[2] + ' ' + '|' + ' ' + board[3] + ' ')
@@ -17,10 +19,11 @@ def printBoard(board):
     print('   |   |')
     pass
 
+# Checks if the space is empy - Returns boolean
 def isFreeSpace(pos):
     return  board[pos] == ' '
    
-
+# Checks if the board is full by counting the amount of empty spaces (if applicable) - Returns boolean
 def isBoardFull(board):
     count = board.count(' ')
 
@@ -29,20 +32,41 @@ def isBoardFull(board):
     else:
         return False
 
+def selectRandom():
+    pass
+
 def compMove():
     # Check for all possible moves
+   possibleMoves = []
 
-    import random
-    computer = randint(1,9)
-    pass
 
-def playerMove(player):
+    # Will check if corners are open
+     
+
+def playerMove():
     # Check for valid move by user - validate
+    run = True # Run till there is possible move
+    while not run:
+        move = input("Select number from 1- 9 to place an 'X' on the board")
+        try:
+            move = int(input) # Turn move into a int
+            if (move > 0 or move < 10):
+                if isFreeSpace(pos):
+                    run = False
+                    insertLetter('X', move)
+                else:
+                    print("Sorry this place is taken")
+            else:
+                print("Please choose a valid number")
+        except:
+            print("Please enter a number!")
     pass
 
+# Replaces current list element with letter
 def insertLetter(letter, pos):
     board[pos] = letter;
 
+# Checks if letter (X or O) have valid patterns
 def isWinner(board, letter):
 
 
@@ -64,19 +88,33 @@ def main():
 
     while not isBoardFull(board):
       if not isWinner(board,'X'):
-
+          compMove()
+          if (compMove() == 0):
+              print("No more spaces")
+              break
+          else:
+              insertLetter('O', compMove())
+              print('Computer placed an \'O\' in position', move , ':')
+              printBoard(board)
       else:    
           print("Win")
           break;
 
       if not isWinner(board, 'O'):
-
+          playerMove()
+          printBoard(board)
       else:
           print("Lose")
           break;
 
     if isBoardFull(board):
         print("Tied! Board is filled up!")
-        break;
 
-main()
+while True:
+    answer = input("Would you like to play again? y/n")
+    if (answer.lower() == 'y') or (answer.lower() == 'yes'):
+        board = [' ' for x in range(10)]
+        print("-------------------------")
+        main()
+    else:
+        break
